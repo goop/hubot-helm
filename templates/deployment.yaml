@@ -35,6 +35,8 @@ spec:
         - name: wait-for-redis
           image: busybox
           env:
+          - name: PORT
+            value {{ .Values.service.targetPort }}
           - name: HUBOT_REDIS_HOST
             value: {{ template "hubot.redis.fullname" . }}-master
           - name: HUBOT_REDIS_PORT
@@ -101,7 +103,7 @@ spec:
         {{- end }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
